@@ -14,15 +14,14 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    - name: Set up JDK 17
+    - name: Set up JDK 21
       uses: actions/setup-java@v4
       with:
-        java-version: '17'
+        java-version: '21'
         distribution: 'temurin'
 
     - name: Auto-Detect and Build Plugin
       run: |
-        # Find pom.xml or build.gradle anywhere in the repository
         POM_PATH=$(find . -name "pom.xml" -print -quit)
         GRADLE_PATH=$(find . -name "build.gradle" -print -quit)
         GRADLE_KTS_PATH=$(find . -name "build.gradle.kts" -print -quit)
@@ -49,7 +48,6 @@ jobs:
           
         else
           echo "ERROR: Could not find any pom.xml or build.gradle files in this repo."
-          find . -maxdepth 3 -not -path '*/.*'
           exit 1
         fi
 
