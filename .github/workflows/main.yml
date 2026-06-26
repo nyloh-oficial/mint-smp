@@ -21,6 +21,9 @@ jobs:
         distribution: 'temurin'
 
     - name: Build Jar
+      defaults:
+        run:
+          working-directory: "Mint Plugin"
       run: |
         if [ -f "pom.xml" ]; then
           mvn -B package
@@ -30,7 +33,7 @@ jobs:
         elif [ -f "build.gradle" ] || [ -f "build.gradle.kts" ]; then
           gradle build
         else
-          echo "Error: No pom.xml or build.gradle found in root directory!"
+          echo "Error: No build file found inside Mint Plugin directory!"
           ls -la
           exit 1
         fi
@@ -40,5 +43,5 @@ jobs:
       with:
         name: MintSMP-Plugin
         path: |
-          target/*.jar
-          build/libs/*.jar
+          Mint Plugin/target/*.jar
+          Mint Plugin/build/libs/*.jar
