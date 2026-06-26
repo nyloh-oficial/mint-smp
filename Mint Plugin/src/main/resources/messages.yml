@@ -1,0 +1,14 @@
+# =====================================================
+#  MINT SMP - messages.yml  (MiniMessage; green theme)
+#  ALL player-facing text lives here. Add keys per milestone.
+# =====================================================
+
+prefix: "<#3DDC84>[Mint]</#3DDC84> <gray>"
+
+no-permission: "<red>You don't have permission to do that."
+
+command:
+  version: "Running <#3DDC84>Mint SMP</#3DDC84> <white><version></white>."
+  reloaded: "<#A8FF60>Configuration reloaded.</#A8FF60>"
+  unknown-sub: "<red>Unknown sub-command: <white><sub></white>. Try <#3DDC84>/mintsmp help</#3DDC84>."
+  help: "<gradient:#3DDC84:#1B5E20><bold>Mint SMP</bold></gradient> <gray>- /mintsmp <white>help | version | reload</white>"

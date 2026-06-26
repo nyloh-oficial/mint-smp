@@ -1,0 +1,39 @@
+# =====================================================
+#  MINT SMP - amethyst.yml
+#  5 exclusive items from the Amethyst Crate.
+#  Each carries a 3-day SELF-DESTRUCT timer that follows the
+#  item (persists across drops/storage). On expiry the item
+#  is removed. All amethyst items are non-sellable (PDC).
+# =====================================================
+
+amethyst:
+  self-destruct-days: 3
+  # particle trail on the tools (toggle per server taste)
+  particles: true
+
+  items:
+    PICKAXE:
+      display: "<gradient:#A8FF60:#3DDC84><bold>Amethyst Pickaxe</bold></gradient>"
+      effect: "mine_3x3x3"        # 3x3x3 per swing
+      respect-tool-rules: true    # only mines pick-appropriate blocks
+
+    AXE:
+      display: "<gradient:#A8FF60:#3DDC84><bold>Amethyst Axe</bold></gradient>"
+      effect: "tree_feller"
+      max-blocks: 500             # ~entire tree, capped
+
+    SHOVEL:
+      display: "<gradient:#A8FF60:#3DDC84><bold>Amethyst Shovel</bold></gradient>"
+      effect: "dig_3x3x3"         # soft/shovel blocks only
+      soft-only: true
+
+    BUCKET:
+      display: "<gradient:#A8FF60:#3DDC84><bold>Amethyst Bucket</bold></gradient>"
+      effect: "drain_water"
+      max-blocks: 27              # drains up to 27 water blocks
+
+    SHARD_BOOSTER:
+      display: "<gradient:#A8FF60:#3DDC84><bold>Amethyst Shard Booster</bold></gradient>"
+      effect: "shard_multiplier"  # CONSUMABLE
+      multiplier: 4               # 4x shards
+      duration-hours: 24
