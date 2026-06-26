@@ -20,28 +20,18 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
-    - name: Build Jar
-      defaults:
-        run:
-          working-directory: "Mint Plugin"
+    - name: Build with Gradle
       run: |
-        if [ -f "pom.xml" ]; then
-          mvn -B package
-        elif [ -f "gradlew" ]; then
+        cd "Mint Plugin"
+        if [ -f "gradlew" ]; then
           chmod +x gradlew
           ./gradlew build
-        elif [ -f "build.gradle" ] || [ -f "build.gradle.kts" ]; then
-          gradle build
         else
-          echo "Error: No build file found inside Mint Plugin directory!"
-          ls -la
-          exit 1
+          gradle build
         fi
 
     - name: Upload compiled .jar artifact
       uses: actions/upload-artifact@v4
       with:
         name: MintSMP-Plugin
-        path: |
-          Mint Plugin/target/*.jar
-          Mint Plugin/build/libs/*.jar
+        path: "Mint Plugin/build/libs/*.jar"
