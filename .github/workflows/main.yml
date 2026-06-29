@@ -1,9 +1,5 @@
 name: Build MintSMP
 
-# Self-locating build: finds pom.xml no matter what folder it's in
-# (handles the "everything nested inside a subfolder" upload trap).
-# Download the jar from the finished run's "Artifacts" section.
-
 on:
   push:
     branches: [ "**" ]
@@ -27,7 +23,7 @@ jobs:
         run: |
           POM="$(find . -name pom.xml -not -path '*/target/*' | head -n1)"
           if [ -z "$POM" ]; then
-            echo "::error::No pom.xml found anywhere in the repo. Upload the project source."
+            echo "::error::No pom.xml found anywhere in the repo."
             exit 1
           fi
           POM_DIR="$(dirname "$POM")"
