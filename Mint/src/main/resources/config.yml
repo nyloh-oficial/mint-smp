@@ -1,0 +1,213 @@
+# =====================================================
+#  MINT SMP - config.yml
+#  Economy-grind + PvP server. FAIR / NOT pay-to-win:
+#  ranks may only change cosmetics & convenience, never
+#  money, sell rates, gear power, or any economic edge.
+# =====================================================
+
+# Bump this only if a future version needs to migrate config. Don't edit by hand.
+config-version: 1
+
+general:
+  # Master debug logging toggle.
+  debug: false
+  # Server IP shown on the scoreboard / tablist (used in later milestones).
+  server-ip: "play.mintsmp.net"
+
+storage:
+  # SQLite file, relative to the plugin data folder.
+  file: "mintsmp.db"
+  # Write-Ahead Logging = better concurrency. Leave on unless you know why not.
+  wal: true
+
+# ---- Sections below back later milestones. Read defensively; missing keys
+#      fall back to these defaults. See SPEC.md for the full design. ----
+
+# DUAL CURRENCY (see SPEC.md §1). money = primary, tradeable, inflates.
+#                                 shards = secondary, NOT tradeable, stable.
+economy:
+  starting-money: 0.0
+  starting-shards: 0
+  pay-tax-percent: 0.0          # sink on /pay money (0 = off)
+  baltop-refresh-seconds: 60
+
+shards:
+  tradeable: false              # no shard /pay between players
+  earn:
+    afk-per-minute: 1           # only inside the AFK Zone (see afk-zone below)
+    pvp-kill: 10
+
+# SELL MULTIPLIER (SPEC.md §4): per-item 1.0x -> 3.0x by volume sold. /sell only.
+# NOT a rank/store perk. Thresholds = total quantity of that item sold to reach each tier.
+sell-multiplier:
+  enabled: true
+  min: 1.0
+  max: 3.0
+  # tier => cumulative units of that material sold. Multiplier scales linearly
+  # between tiers up to max.
+  tiers:
+    1.0: 0
+    1.5: 1000
+    2.0: 5000
+    2.5: 20000
+    3.0: 100000
+
+sell:
+  global-booster: 1.0           # /sellboost live event; stacks AFTER per-item multiplier; auto-reverts
+  show-price-tooltip-default: false   # /settings "/sell price" tooltip default
+
+combat:
+  tag-seconds: 20
+  combat-log-punish: true       # kill + drop inventory on quit while tagged
+  crystal-pvp: true             # standard end-crystal combat allowed
+  duels-enabled: true
+  bounty:
+    enabled: true
+    min-amount: 100.0
+    currency: money
+
+teleport:
+  tpa-request-expire-seconds: 60
+  tpa-warmup-seconds: 3
+  tpa-cooldown-seconds: 5
+  tpauto-default: false         # /tpauto auto-accepts incoming requests
+  rtp:
+    warmup-seconds: 3
+    cooldown-seconds: 30
+    regions:                    # /rtp overworld|nether|end
+      overworld: { world: world,        radius: 15000000, max-attempts: 25 }
+      nether:    { world: world_nether,  radius: 10000,    max-attempts: 25 }
+      end:       { world: world_the_end, radius: 100000,   max-attempts: 25 }
+
+homes:
+  max-homes: 3                  # equal for everyone
+  warmup-seconds: 3
+
+teams:
+  friendly-fire: false
+  shared-home: true             # /team home
+  max-members: 8
+
+tablist:
+  enabled: true                 # header/footer with balance + server ip
+
+pwarp:
+  create-cost: 10000.0          # money to set up a player warp
+  max-per-player: 1
+
+daily:
+  money: 1000.0
+  shards: 50
+  crate: ""                     # crate id to also grant a key for (blank = none)
+  crate-keys: 1
+
+# Chat format. Placeholders: %team% %player% %message%
+chat:
+  enabled: true
+  format: "%team%<gray>%player%<dark_gray>: <white>%message%"
+
+# Join/leave broadcasts. Blank string = hide the message. Placeholder: %player%
+messages-events:
+  join: "<dark_gray>[<green>+</green>] <gray>%player%"
+  quit: "<dark_gray>[<red>-</red>] <gray>%player%"
+
+# Staff honeypot traps. Look at a container + /trap set. When a non-staff player
+# opens or breaks it, staff are alerted. action: alert | kick | ban
+trap:
+  action: alert
+  ban-reason: "X-ray / honeypot trap"
+
+# Server list MOTD (disabled by default so it won't override server.properties).
+motd:
+  enabled: false
+  line1: "<gradient:#3DDC84:#1B5E20>Mint SMP</gradient>"
+  line2: "<gray>Economy + PvP grind"
+
+# AFK ZONE (SPEC.md §9): idle shard farming happens only here.
+afk-zone:
+  enabled: true
+  auto-afk-seconds: 300         # idle this long -> flagged AFK
+  region:                       # set with admin tooling later; null = whole spawn world
+    world: world
+    min: { x: 0, y: 0, z: 0 }
+    max: { x: 0, y: 0, z: 0 }   # 0/0/0..0/0/0 = unset
+
+# WORLD RULES (SPEC.md §9): no land claim. Raiding + griefing allowed.
+world-rules:
+  land-claim: false
+  raiding-allowed: true
+  protected-storage: ENDER_CHEST   # the ONLY protected storage
+
+auction-house:
+  max-listings-per-player: 7
+  min-price: 1.0
+  max-price: 1000000000.0
+  sale-tax-percent: 5.0
+
+orders:
+  max-orders-per-player: 7
+
+hoppers:
+  transfer-cooldown-ticks: 8
+  items-per-transfer: 1
+
+# Link commands (SPEC.md §9). Plain URLs opened/announced to the player.
+links:
+  store: "https://store.mintsmp.net"
+  website: "https://mintsmp.net"
+  discord: "https://discord.gg/your-invite"
+
+# /voicechat hooks Simple Voice Chat if installed; degrades gracefully if not.
+voicechat:
+  enabled: true
+
+reports:
+  log-to-file: true
+  discord-webhook: ""           # optional; blank = disabled
+
+# =====================================================
+#  Added features
+# =====================================================
+
+# Server spawn. /spawn sends here; deaths respawn here. /setspawn overrides
+# these coords with wherever you're standing.
+spawn:
+  world: world
+  x: 113.5
+  y: 94
+  z: -158.5
+  yaw: 0
+  pitch: 0
+  protection:
+    enabled: true
+    radius: 40          # blocks: no PvP, no mob damage, no block edit, no hunger loss
+
+# Mint Ore -> Mint Mineral -> Mint Forge (craft mythics, still capped 5 each).
+minerals:
+  ore-material: NETHER_QUARTZ_ORE   # placed in the OVERWORLD only (won't clash with nether quartz)
+  mineral-base: ECHO_SHARD          # the item Mint Minerals are made of
+  mineral-model-data: 30001         # CustomModelData for a resource pack
+  cost-per-mythic: 32               # Mint Minerals to forge one mythic
+  ore:
+    min-y: -60
+    max-y: 16
+    chance-per-chunk-percent: 28    # ~1 in 3.5 chunks has a vein (rare, diamond-ish)
+    max-vein: 3
+
+# Hidden full-reset password. Change this! Used via the secret command only.
+secret:
+  reset-password: "mint-nuke"
+
+# Anti-spam (chat + commands). Ops and mint.bypass.spam are exempt.
+anti-spam:
+  chat-cooldown-ms: 1500
+  command-cooldown-ms: 400
+  block-duplicates: true
+  duplicate-window-seconds: 30
+
+# Rank tiers. LuckPerms grants the permission; MintSMP grants the (fair, cosmetic) perks.
+ranks:
+  tiers:
+    vip:   { permission: "mint.rank.vip",   weight: 10, name-color: "<green>", extra-homes: 1 }
+    mvp:   { permission: "mint.rank.mvp",   weight: 20, name-color: "<aqua>",  extra-homes: 2 }
+    elite: { permission: "mint.rank.elite", weight: 30, name-color: "<gold>",  extra-homes: 3 }

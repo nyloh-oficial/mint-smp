@@ -1,0 +1,67 @@
+# =====================================================
+#  MINT SMP - spawners.yml
+#  CUSTOM spawners - NOT vanilla. They do not spawn mobs.
+#  Right-click a placed spawner -> drops go straight to you,
+#  then a per-spawner cooldown starts.
+#  - Flat price: 1500 shards each (bought elsewhere / Gold crate).
+#  - Cannot be /sell'd or listed on /ah (PDC-locked).
+#  - Traded ONLY via the off-server Discord Market.
+# =====================================================
+
+spawners:
+  price-shards: 1500
+  # Default cooldown between right-click harvests (seconds). Overridable per type.
+  default-cooldown-seconds: 30
+
+  types:
+    IRON_GOLEM:
+      display: "<green>Iron Golem Spawner"
+      cooldown-seconds: 60
+      drops:
+        - { material: IRON_INGOT, min: 3, max: 5 }
+        - { material: POPPY, min: 0, max: 2 }
+
+    COW:
+      display: "<green>Cow Spawner"
+      cooldown-seconds: 20
+      drops:
+        - { material: LEATHER, min: 1, max: 2 }
+        - { material: BEEF, min: 1, max: 3 }
+
+    SKELETON:
+      display: "<green>Skeleton Spawner"
+      cooldown-seconds: 25
+      drops:
+        - { material: BONE, min: 1, max: 3 }
+        - { material: ARROW, min: 0, max: 2 }
+
+    ZOMBIE:
+      display: "<green>Zombie Spawner"
+      cooldown-seconds: 25
+      drops:
+        - { material: ROTTEN_FLESH, min: 1, max: 3 }
+
+    CREEPER:
+      display: "<green>Creeper Spawner"
+      cooldown-seconds: 30
+      drops:
+        - { material: GUNPOWDER, min: 1, max: 2 }
+
+    BLAZE:
+      display: "<green>Blaze Spawner"
+      cooldown-seconds: 40
+      drops:
+        - { material: BLAZE_ROD, min: 1, max: 2 }
+
+    SPIDER:
+      display: "<green>Spider Spawner"
+      cooldown-seconds: 25
+      drops:
+        - { material: STRING, min: 1, max: 3 }
+        - { material: SPIDER_EYE, min: 0, max: 1 }
+
+    ENDERMAN:
+      display: "<green>Enderman Spawner"
+      cooldown-seconds: 45
+      drops:
+        - { material: ENDER_PEARL, min: 1, max: 1 }
