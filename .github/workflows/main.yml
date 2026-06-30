@@ -19,34 +19,15 @@ jobs:
           java-version: "21"
           cache: maven
 
-      - name: Locate the REAL project and build
+      - name: Find pom.xml and build
         run: |
-          echo "All pom.xml files in the repo:"
-          find . -name pom.xml -not -path '*/target/*' -print
-
-          # Pick the pom whose sibling tree actually contains Settings.java
-          # (that's the complete, correct copy — ignores stale/partial ones).
-          POM=""
-          while IFS= read -r candidate; do
-            dir="$(dirname "$candidate")"
-            if [ -f "$dir/src/main/java/net/mintsmp/feature/Settings.java" ]; then
-              POM="$candidate"
-              break
-            fi
-          done < <(find . -name pom.xml -not -path '*/target/*')
-
+          POM="$(find . -name pom.xml -not -path '*/target/*' | head -n1)"
           if [ -z "$POM" ]; then
-            echo "::error::No complete project found (no pom.xml has feature/Settings.java next to it)."
-            echo "This means the new files (Settings, Minerals, AntiSpam, SpawnerStack, Ranks) are not uploaded."
+            echo "::error::No pom.xml found anywhere in the repo."
             exit 1
           fi
-
           POM_DIR="$(dirname "$POM")"
-          echo "================================================"
-          echo "Building the COMPLETE project at: $POM_DIR"
-          echo "feature/ contents:"
-          ls "$POM_DIR/src/main/java/net/mintsmp/feature/"
-          echo "================================================"
+          echo "Building in: $POM_DIR"
           cd "$POM_DIR"
           mvn -B clean package
           echo "JAR_DIR=$POM_DIR/target" >> "$GITHUB_ENV"
